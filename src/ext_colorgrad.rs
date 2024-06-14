@@ -1,3 +1,5 @@
+//! Float converters using an external crate(colorgrad).
+
 #[cfg(feature = "ext_colorgrad_wasm")]
 pub mod wasm;
 
