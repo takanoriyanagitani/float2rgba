@@ -1,3 +1,5 @@
+//! Converts a [`Color`] object to primitives.
+
 use colorgrad::Color;
 
 pub fn color2rgba(c: Color) -> (u8, u8, u8, u8) {
