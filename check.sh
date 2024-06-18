@@ -1,6 +1,6 @@
 #!/bin/sh
 
 cargo \
-    check \
-    --target wasm32-unknown-unknown \
-    --all-features
+	check \
+	--target wasm32-unknown-unknown \
+	--all-features

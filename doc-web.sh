@@ -5,7 +5,7 @@ port=61680
 docd=./
 
 python3 \
-  -m http.server \
-  --bind "${addr}" \
-  --directory "${docd}" \
-  ${port}
+	-m http.server \
+	--bind "${addr}" \
+	--directory "${docd}" \
+	${port}
