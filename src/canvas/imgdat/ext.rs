@@ -51,7 +51,7 @@ pub fn input_init(sz: usize, val: f32) -> Result<usize, &'static str> {
 
     #[allow(unsafe_code)]
     let ov: Option<_> = unsafe { pmv.as_mut() };
-    let v: &mut Vec<_> = ov.ok_or_else(|| "input unavailable")?;
+    let v: &mut Vec<_> = ov.ok_or("input unavailable")?;
 
     init32f(sz, val, v)
 }
@@ -71,7 +71,7 @@ pub fn output_reset(sz: usize) -> Result<usize, &'static str> {
 
     #[allow(unsafe_code)]
     let ov: Option<_> = unsafe { pmv.as_mut() };
-    let v: &mut Vec<_> = ov.ok_or_else(|| "output unavailable")?;
+    let v: &mut Vec<_> = ov.ok_or("output unavailable")?;
 
     reset32u(sz, v)
 }
@@ -107,14 +107,14 @@ pub fn conv_swap(swap: bool) -> Result<u64, &'static str> {
 
     #[allow(unsafe_code)]
     let oi: Option<_> = unsafe { pcv.as_ref() };
-    let i: &[f32] = oi.ok_or_else(|| "input unavailable")?;
+    let i: &[f32] = oi.ok_or("input unavailable")?;
 
     #[allow(unsafe_code)]
     let pmv: *mut Vec<u32> = unsafe { addr_of_mut!(OUTPUT_RGBA) };
 
     #[allow(unsafe_code)]
     let ow: Option<_> = unsafe { pmv.as_mut() };
-    let o: &mut Vec<u32> = ow.ok_or_else(|| "output unavailable")?;
+    let o: &mut Vec<u32> = ow.ok_or("output unavailable")?;
 
     let cnv_unsafe = |f: f32| {
         #[allow(unsafe_code)]
