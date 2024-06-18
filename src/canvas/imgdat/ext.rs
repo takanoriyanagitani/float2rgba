@@ -9,14 +9,15 @@ extern "C" {
 
 #[allow(unsafe_code)]
 #[no_mangle]
-pub extern "C" fn cnvs_imgdat_ext_input_ptr() -> *const f32 {
+pub extern "C" fn cnvs_imgdat_ext_input_ptr() -> *mut f32 {
     #[allow(unsafe_code)]
-    let pcv: *const Vec<f32> = unsafe { addr_of!(INPUT_FLOAT) };
+    let pmv: *mut Vec<f32> = unsafe { addr_of_mut!(INPUT_FLOAT) };
 
     #[allow(unsafe_code)]
-    let oi: Option<_> = unsafe { pcv.as_ref() };
+    let oi: Option<_> = unsafe { pmv.as_mut() };
 
-    oi.map(|i| i.as_ptr()).unwrap_or_else(core::ptr::null)
+    oi.map(|i| i.as_mut_ptr())
+        .unwrap_or_else(core::ptr::null_mut)
 }
 
 #[allow(unsafe_code)]
@@ -100,7 +101,7 @@ where
     })
 }
 
-pub fn conv() -> Result<u64, &'static str> {
+pub fn conv_swap(swap: bool) -> Result<u64, &'static str> {
     #[allow(unsafe_code)]
     let pcv: *const Vec<f32> = unsafe { addr_of!(INPUT_FLOAT) };
 
@@ -115,18 +116,36 @@ pub fn conv() -> Result<u64, &'static str> {
     let ow: Option<_> = unsafe { pmv.as_mut() };
     let o: &mut Vec<u32> = ow.ok_or_else(|| "output unavailable")?;
 
-    let cnv = |f: f32| {
+    let cnv_unsafe = |f: f32| {
         #[allow(unsafe_code)]
         unsafe {
             float2rgba(f)
         }
     };
 
-    Ok(convert(i, o, &cnv))
+    let cnv_swap = |f: f32| {
+        let u: u32 = cnv_unsafe(f);
+        u.swap_bytes()
+    };
+
+    match swap {
+        false => Ok(convert(i, o, &cnv_unsafe)),
+        true => Ok(convert(i, o, &cnv_swap)),
+    }
+}
+
+pub fn conv() -> Result<u64, &'static str> {
+    conv_swap(false)
+}
+
+#[allow(unsafe_code)]
+#[no_mangle]
+pub extern "C" fn cnvs_imgdat_ext_convert_swap(swap: bool) -> i32 {
+    conv_swap(swap).map(|u| u as i32).unwrap_or(-1)
 }
 
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_convert() -> i32 {
-    conv().map(|u| u as i32).unwrap_or(-1)
+    cnvs_imgdat_ext_convert_swap(false)
 }
