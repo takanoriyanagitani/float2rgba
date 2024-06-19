@@ -13,6 +13,7 @@ features() {
 	echo ext_colorgrad_wasm
 
 	echo ext_colorgrad_turbo_wasm
+	echo ext_colorgrad_rainbow_wasm
 
 	echo canvas
 }

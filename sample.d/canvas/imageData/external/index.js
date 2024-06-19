@@ -29,18 +29,28 @@
       const {
         ext_colorgrad_turbo_init,
         float2rgba32u_ext_turbo,
+
+        ext_colorgrad_rainbow_init,
+        float2rgba32u_ext_rainbow,
       } = instance?.exports || {};
 
-      if (0 != ext_colorgrad_turbo_init()) {
-        console.error("unable to initialize");
-        return;
+      const rainbow = true;
+
+      const init = rainbow
+        ? ext_colorgrad_rainbow_init
+        : ext_colorgrad_turbo_init;
+
+      if (0 != init()) {
+        return Promise.reject("unable to initialize");
       }
 
       return WebAssembly.instantiate(
         module,
         {
           env: {
-            float2rgba: float2rgba32u_ext_turbo,
+            float2rgba: rainbow
+              ? float2rgba32u_ext_rainbow
+              : float2rgba32u_ext_turbo,
           },
         },
       );

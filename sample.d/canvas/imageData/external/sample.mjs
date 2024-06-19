@@ -29,18 +29,27 @@ import { readFile } from "node:fs/promises";
       const {
         ext_colorgrad_turbo_init,
         float2rgba32u_ext_turbo,
+
+        ext_colorgrad_rainbow_init,
+        float2rgba32u_ext_rainbow,
       } = instance?.exports || {};
 
-      if (0 != ext_colorgrad_turbo_init()) {
-        console.error("unable to initialize");
-        return;
+      const rainbow = true;
+      const init = rainbow
+        ? ext_colorgrad_rainbow_init
+        : ext_colorgrad_turbo_init;
+
+      if (0 != init()) {
+        return Promise.reject("unable to initialize");
       }
 
       return WebAssembly.instantiate(
         module,
         {
           env: {
-            float2rgba: float2rgba32u_ext_turbo,
+            float2rgba: rainbow
+              ? float2rgba32u_ext_rainbow
+              : float2rgba32u_ext_turbo,
           },
         },
       );
@@ -51,7 +60,7 @@ import { readFile } from "node:fs/promises";
 
         cnvs_imgdat_ext_input_init,
         cnvs_imgdat_ext_output_reset,
-        cnvs_imgdat_ext_convert,
+        cnvs_imgdat_ext_convert_swap,
 
         cnvs_imgdat_ext_input_ptr,
         cnvs_imgdat_ext_output_ptr,
@@ -72,22 +81,23 @@ import { readFile } from "node:fs/promises";
 
       console.info({ iptr, optr });
 
-      const iview = new Float32Array(memory.buffer, iptr, sz);
+      const dview = new DataView(memory.buffer, iptr, sz << 2);
 
       const rcp = 1.0 / 256.0;
 
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const ix = y * width + x;
-          const f = rcp * ix;
-          iview[ix] = f;
+          const f = rcp * x;
+          dview.setFloat32(ix << 2, f, true); // JS: big endian by default
         }
       }
 
       const started = Date.now();
       const loop = 64;
       for (let i = 0; i < loop; i++) {
-        const conv = cnvs_imgdat_ext_convert();
+        // Wasm: little endian
+        const conv = cnvs_imgdat_ext_convert_swap(true);
       }
       const elapsed = Date.now() - started;
       console.info({ elapsed });

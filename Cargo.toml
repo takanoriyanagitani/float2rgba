@@ -43,5 +43,6 @@ ext_colorgrad = ["colorgrad"]
 ext_colorgrad_wasm = []
 
 ext_colorgrad_turbo_wasm = []
+ext_colorgrad_rainbow_wasm = []
 
 canvas = []
