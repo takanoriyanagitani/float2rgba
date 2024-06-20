@@ -2,6 +2,7 @@
 
 use colorgrad::Color;
 
+/// Converts a [`Color`] to an RGBA tuple.
 pub fn color2rgba(c: Color) -> (u8, u8, u8, u8) {
     c.to_linear_rgba_u8()
 }
