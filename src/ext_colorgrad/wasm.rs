@@ -7,6 +7,7 @@ pub fn color2rgba(c: Color) -> (u8, u8, u8, u8) {
     c.to_linear_rgba_u8()
 }
 
+/// Converts a [`Color`] to an unsigned integer(RGBA).
 pub fn color2u32(c: Color) -> u32 {
     let (r, g, b, a) = color2rgba(c);
 
