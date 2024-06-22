@@ -1,3 +1,5 @@
+//! Functions using "turbo" color map.
+
 use std::sync::RwLock;
 
 use colorgrad::Color;
