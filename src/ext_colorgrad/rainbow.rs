@@ -7,6 +7,7 @@ use super::wasm::color2u32;
 
 static RAINBOW: RwLock<Option<Gradient>> = RwLock::new(None);
 
+/// Initializes the `Gradient` object used for color conversion("rainbow").
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn ext_colorgrad_rainbow_init() -> i32 {
