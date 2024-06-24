@@ -21,6 +21,7 @@ pub extern "C" fn ext_colorgrad_rainbow_init() -> i32 {
     }
 }
 
+/// Converts a 32-bit float value to an RGBA integer(u32) using "rainbow".
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn float2rgba32u_ext_rainbow(f: f32) -> u32 {
