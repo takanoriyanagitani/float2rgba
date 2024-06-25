@@ -1,9 +1,12 @@
+//! Bulk color conversion using external color converter.
+
 use core::ptr::{addr_of, addr_of_mut};
 
 static mut INPUT_FLOAT: Vec<f32> = vec![];
 static mut OUTPUT_RGBA: Vec<u32> = vec![];
 
 extern "C" {
+    // external color converter(float -> RGBA)
     fn float2rgba(f: f32) -> u32;
 }
 
