@@ -2,6 +2,7 @@
 
 use core::ptr::{addr_of, addr_of_mut};
 
+// Wasm runtime should not use threads for this module.
 static mut INPUT_FLOAT: Vec<f32> = vec![];
 static mut OUTPUT_RGBA: Vec<u32> = vec![];
 
@@ -10,6 +11,7 @@ extern "C" {
     fn float2rgba(f: f32) -> u32;
 }
 
+/// The pointer(offset integer @ WASM) to the input f32 vector.
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_input_ptr() -> *mut f32 {
