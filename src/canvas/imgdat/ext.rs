@@ -25,6 +25,7 @@ pub extern "C" fn cnvs_imgdat_ext_input_ptr() -> *mut f32 {
         .unwrap_or_else(core::ptr::null_mut)
 }
 
+/// The pointer(offset integer @ WASM) to the output u32 vector.
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_output_ptr() -> *const u32 {
