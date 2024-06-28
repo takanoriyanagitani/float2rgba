@@ -51,6 +51,7 @@ pub fn init32f(sz: usize, val: f32, v: &mut Vec<f32>) -> Result<usize, &'static 
     Ok(v.capacity())
 }
 
+/// Initializes the input vector and fill it with the specified value.
 pub fn input_init(sz: usize, val: f32) -> Result<usize, &'static str> {
     #[allow(unsafe_code)]
     let pmv: *mut Vec<f32> = unsafe { addr_of_mut!(INPUT_FLOAT) };
