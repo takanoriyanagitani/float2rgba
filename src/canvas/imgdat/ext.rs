@@ -63,6 +63,7 @@ pub fn input_init(sz: usize, val: f32) -> Result<usize, &'static str> {
     init32f(sz, val, v)
 }
 
+/// Clears the output vector after resizing it.
 pub fn reset32u(sz: usize, v: &mut Vec<u32>) -> Result<usize, &'static str> {
     let cap: usize = v.len();
     let add: usize = sz.saturating_sub(cap);
