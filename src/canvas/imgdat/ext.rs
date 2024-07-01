@@ -84,6 +84,7 @@ pub fn output_reset(sz: usize) -> Result<usize, &'static str> {
     reset32u(sz, v)
 }
 
+/// Initializes the input vector(for wasm).
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_input_init(sz: i32, val: f32) -> i32 {
