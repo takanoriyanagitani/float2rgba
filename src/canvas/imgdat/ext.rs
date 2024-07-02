@@ -91,6 +91,7 @@ pub extern "C" fn cnvs_imgdat_ext_input_init(sz: i32, val: f32) -> i32 {
     input_init(sz as usize, val).map(|u| u as i32).unwrap_or(-1)
 }
 
+/// Clears the output vector(for wasm).
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_output_reset(sz: i32) -> i32 {
