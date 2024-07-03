@@ -148,6 +148,7 @@ pub fn conv() -> Result<u64, &'static str> {
     conv_swap(false)
 }
 
+/// Tries to convert float values to RGBA values using an external converter.
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_convert_swap(swap: bool) -> i32 {
