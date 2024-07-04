@@ -155,6 +155,7 @@ pub extern "C" fn cnvs_imgdat_ext_convert_swap(swap: bool) -> i32 {
     conv_swap(swap).map(|u| u as i32).unwrap_or(-1)
 }
 
+/// Tries to convert float values(without byte swap)
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_convert() -> i32 {
