@@ -111,6 +111,7 @@ where
     })
 }
 
+/// Tries to convert float values to RGBA values using an external converter.
 pub fn conv_swap(swap: bool) -> Result<u64, &'static str> {
     #[allow(unsafe_code)]
     let pcv: *const Vec<f32> = unsafe { addr_of!(INPUT_FLOAT) };
@@ -148,7 +149,7 @@ pub fn conv() -> Result<u64, &'static str> {
     conv_swap(false)
 }
 
-/// Tries to convert float values to RGBA values using an external converter.
+/// Tries to convert float values(for wasm)
 #[allow(unsafe_code)]
 #[no_mangle]
 pub extern "C" fn cnvs_imgdat_ext_convert_swap(swap: bool) -> i32 {
